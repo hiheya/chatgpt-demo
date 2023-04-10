@@ -70,7 +70,7 @@ export default ({ role, message, showRetry, onRetry }: Props) => {
 
   return (
     <div class="py-2 -mx-4 px-4 transition-colors md:hover:bg-slate/3">
-      <div class="flex gap-3 rounded-lg" class:op-75={role === 'user'}>
+      <div class="flex gap-3 rounded-lg" class:op-75={role === 'assistant'}>
         <div class={`shrink-0 w-7 h-7 mt-4 rounded-full op-80 ${roleClass[role]}`} />
         <div class="message prose break-words overflow-hidden" innerHTML={htmlString()} />
       </div>
@@ -78,7 +78,7 @@ export default ({ role, message, showRetry, onRetry }: Props) => {
         <div class="fie px-3 mb-2">
           <div onClick={onRetry} class="gpt-retry-btn">
             <IconRefresh />
-            <span>Regenerate</span>
+            <span>重新生成</span>
           </div>
         </div>
       )}
