@@ -240,7 +240,7 @@ export default () => {
             ref={inputRef!}
             disabled={systemRoleEditing()}
             onKeyDown={handleKeydown}
-            placeholder="今天又有哪些困惑呢..."
+            placeholder="今天又有哪些困惑呢...(‘Shift + Enter’ 回车)"
             autocomplete="off"
             autofocus
             onInput={() => {
