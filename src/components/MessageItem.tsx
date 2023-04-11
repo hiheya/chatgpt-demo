@@ -6,15 +6,6 @@ import { useClipboard, useEventListener } from 'solidjs-use'
 import IconRefresh from './icons/Refresh'
 import type { Accessor } from 'solid-js'
 import type { ChatMessage } from '@/types'
-import { JSX } from 'solid-js';
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      [elemName: string]: any;
-    }
-  }
-}
 
 interface Props {
   role: ChatMessage['role']
@@ -24,8 +15,12 @@ interface Props {
 }
 
 export default ({ role, message, showRetry, onRetry }: Props) => {
-
-  const AssistantIcon: () => JSX.Element = () => (
+  const roleClass = {
+    system: 'bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300',
+    user: 'bg-gradient-to-r from-purple-400 to-yellow-400',
+    assistant: 'bg-gradient-to-r from-yellow-200 via-green-200 to-green-300',
+  }
+  const AssistantIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
       <g fill="none">
         <path fill="#F8312F" d="M5 3.5a1.5 1.5 0 0 1-1 1.415V12l2.16 5.487L4 23c-1.1 0-2-.9-2-1.998v-7.004a2 2 0 0 1 1-1.728V4.915A1.5 1.5 0 1 1 5 3.5Zm25.05.05c0 .681-.44 1.26-1.05 1.468V12.2c.597.347 1 .994 1 1.73v7.01c0 1.1-.9 2-2 2l-2.94-5.68L28 11.93V5.018a1.55 1.55 0 1 1 2.05-1.468Z"></path>
@@ -36,12 +31,6 @@ export default ({ role, message, showRetry, onRetry }: Props) => {
       </g>
     </svg>
   );
-  const roleClass = {
-    system: 'bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300',
-    user: 'bg-gradient-to-r from-purple-400 to-yellow-400',
-    assistant: < AssistantIcon />,
-  }
-  
   const [source] = createSignal('')
   const { copy, copied } = useClipboard({ source, copiedDuring: 1000 })
 
@@ -93,7 +82,8 @@ export default ({ role, message, showRetry, onRetry }: Props) => {
   return (
     <div class="py-2 -mx-4 px-4 transition-colors md:hover:bg-slate/3">
       <div class="flex gap-3 rounded-lg" class:op-75={role === 'user'}>
-        <div class={`shrink-0 w-7 h-7 mt-4 rounded-full op-80 ${roleClass[role]}`} />
+        <div class={`shrink-0 w-7 h-7 mt-4 rounded-full op-80 ${roleClass[role] === 'assistant' && <AssistantIcon />}`}>
+        </div>
         <div class="message prose break-words overflow-hidden" innerHTML={htmlString()} />
       </div>
       {showRetry?.() && onRetry && (
